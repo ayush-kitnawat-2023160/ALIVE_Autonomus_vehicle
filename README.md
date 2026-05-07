@@ -1,4 +1,4 @@
-# 🚗 ALIVE: Autonomous Vehicle Stack — Restoration & Adaptation
+# ALIVE: Autonomous Vehicle Stack — Restoration & Adaptation
 
 > **B.Tech Project | IIIT Delhi | 2025–2026**  
 > Restoration and adaptation of a legacy ROS-based autonomous driving stack for the **Mahindra e2o** electric vehicle and **Golf Cart** platforms.
@@ -13,7 +13,7 @@ https://github.com/user-attachments/assets/2b18edaa-df30-461a-80f2-16a76b72180b
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 The ALIVE (Autonomous Last Mile Vehicle) stack is a full-pipeline autonomous driving system built on ROS, originally developed over multiple student cohorts at IIIT Delhi. This project restored it from a **fragmented, non-functional state** to a **field-tested, outdoor-capable autonomous vehicle**.
 
@@ -26,7 +26,7 @@ The project proceeded in three phases:
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 LiDAR / Camera
@@ -59,7 +59,7 @@ Obstacle Detection)           FLOAM + EKF)
 
 ---
 
-## 🧱 ROS Stack — Key Packages
+## ROS Stack — Key Packages
 
 | Package | Role |
 |---|---|
@@ -76,7 +76,7 @@ Obstacle Detection)           FLOAM + EKF)
 
 ---
 
-## 🔄 Data Flow
+## Data Flow
 
 ```
 CARLA / Real Sensors
@@ -108,7 +108,7 @@ car_data_node     point_cloud_transformer
 
 ---
 
-## 🛠️ Key Engineering Contributions
+## Key Engineering Contributions
 
 ### 1. Codebase Restoration
 - Audited a fragmented multi-repository ROS codebase
@@ -142,74 +142,7 @@ car_data_node     point_cloud_transformer
 
 ---
 
-## 🚀 Quick Start
-
-### CARLA Simulation
-
-```bash
-# Terminal 1 — Start CARLA
-./CarlaUE4.sh
-
-# Terminal 2 — ROS Bridge
-roslaunch carla_ros_bridge carla_ros_bridge.launch synchronous_mode:=True
-
-# Terminal 3 — Spawn ego vehicle
-roslaunch carla_spawn_objects carla_example_ego_vehicle.launch \
-  spawn_sensors_only:=False \
-  objects_definition_file:=<path>/Carla/carla_scripts/objects.json
-
-# Terminal 4 — ALIVE stack
-roslaunch top_level.launch simulation_state:=True use_sim_time:=True \
-  three_lidar:=True platform:=carla remote_launch:=False
-
-# Terminal 5 — Controller
-roslaunch cascaded_pid pi_controller.launch simulation_state:=True planner:=True teb:=False
-```
-
-Set a goal using the purple arrow in RViz → vehicle navigates autonomously.
-
-### Real Vehicle (Mahindra e2o — Single LiDAR)
-
-```bash
-# CAN interface setup (nuc2-desktop)
-sudo ip link set can0 type can bitrate 500000 && sudo ip link set can0 up
-rosrun can can_node
-
-# Sensor stack (nuc-planner)
-roslaunch single_sensor.launch
-roslaunch floam floam_velodyne.launch use_sim_time:=False
-roslaunch localisation_fusion ekf.launch use_sim_time:=False
-
-# Main stack
-roslaunch top_level.launch simulation_state:=False use_sim_time:=False \
-  platform:=e2o three_lidar:=False remote_launch:=True
-
-# Controller
-roslaunch cascaded_pid pi_controller.launch teb:=False simulation_state:=False
-```
-
-See `Appendix B` in the project report for the full bringup checklist.
-
----
-
-## 🐛 Debug Checklist
-
-Check these topics in order to isolate failures:
-
-```bash
-rostopic echo /carla/ego_vehicle/odometry   # CARLA state
-rostopic echo /pose                          # Localization
-rostopic echo /odometry/filtered/global     # Velocity
-rostopic echo /global_velodyne_obstacles    # LiDAR obstacles
-rostopic echo /grid_map                     # Fused world model
-rostopic echo /trajectory_rollout           # Planner output
-rostopic echo /pid_info                     # Controller output
-rostopic echo /carla/ego_vehicle/vehicle_control_cmd  # Final command
-```
-
----
-
-## 📋 System Requirements
+## System Requirements
 
 | Component | Version |
 |---|---|
@@ -224,48 +157,7 @@ rostopic echo /carla/ego_vehicle/vehicle_control_cmd  # Final command
 
 ---
 
-## 📁 Repository Structure
-
-```
-alive-dev/
-├── src/
-│   ├── car_data/                 # CARLA/vehicle state adapter
-│   ├── point_cloud_transformer/  # LiDAR merge, filter, transform
-│   ├── estimator/                # Fused grid map builder
-│   ├── map_publisher/            # Lanelet2 HD map loader
-│   ├── structured_planner/       # Trajectory rollout planner
-│   ├── cascaded_pid/             # PID trajectory tracker + CARLA adapter
-│   ├── alive_behavior_tree/      # High-level behavior arbitration
-│   ├── hybrid_astar/             # Reverse/recovery planner
-│   ├── planning_local_nav/       # TEB local planner wrapper
-│   ├── yolop/                    # Camera perception (YOLOP)
-│   ├── object_detection/         # Object tracking and obstacle projection
-│   ├── velocity_profile/         # Stop/velocity profile service
-│   ├── virtual_obs_pose_pub/     # Scenario virtual obstacles
-│   ├── can/                      # Vehicle CAN interface
-│   └── e2o/                      # Mahindra e2o actuation interface
-├── Carla/carla_scripts/objects.json  # CARLA sensor/vehicle config
-├── sensor_setup/                 # Real sensor launch files
-└── top_level.launch              # Main integration launch file
-```
-
----
-
-## 📊 Results Summary
-
-| Metric | Value |
-|---|---|
-| Navigation success (open area) | **80%** |
-| Navigation success (constrained) | **70%** |
-| CAN autonomous mode | ✅ Fixed and reliable |
-| Single-LiDAR stability | ✅ Crash-free extended runs |
-| CARLA full-loop validation | ✅ Multiple goal-directed runs |
-| Live demo to faculty | ✅ Demonstrated to Prof. S. K. Kaul |
-| Golf cart drive-by-wire | ⚠️ Fault identified, pending fix |
-
----
-
-## 🔮 Future Work
+## Future Work
 
 - **Golf Cart:** Reverse-engineer Controllio initialization handshake → enable autonomous mode
 - **Multi-LiDAR:** Restore 360° coverage on golf cart platform
@@ -275,7 +167,7 @@ alive-dev/
 
 ---
 
-## 📚 References
+## References
 
 1. Dosovitskiy et al., *CARLA: An Open Urban Driving Simulator*, CoRL 2017
 2. Quigley et al., *ROS: An Open-Source Robot Operating System*, ICRA 2009
