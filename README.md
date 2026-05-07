@@ -271,16 +271,6 @@ alive-dev/
 
 ---
 
-## 📄 Documentation
-
-- [Full BTP Report](./report/Dev_Ayush_BTP_2023189_2023160.pdf)
-- [Project Poster](./report/BTP_Poster_2023160_2023189.pdf)
-- [CARLA Run Procedure (HackMD)](https://hackmd.io/@HNp1BlvrQfG9mvtMpCvFAg/SkSvgcvSbl)
-- [e2o Run Procedure (HackMD)](https://hackmd.io/@HNp1BlvrQfG9mvtMpCvFAg/r1oZWyFu-e)
-- [ALIVE Project Site](https://sites.google.com/iiitd.ac.in/iiitd-alive/home)
-
----
-
 ## 📚 References
 
 1. Dosovitskiy et al., *CARLA: An Open Urban Driving Simulator*, CoRL 2017
