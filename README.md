@@ -176,4 +176,4 @@ car_data_node     point_cloud_transformer
 
 ---
 
-*IIIT Delhi · B.Tech CSE · BTP Track: Engineering · April 2026*
+*IIIT Delhi · B.Tech CSE · Engineering*
